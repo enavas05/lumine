@@ -15,6 +15,7 @@ const {
 module.exports = {
     createCategory: (req, res) =>{
         const body = req.body;
+        
             
         createCategory(body, (err, results)=>{
             
