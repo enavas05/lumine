@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const util = require('util');
 
+
 const maxSize = 8 * 1024 * 1024;
 
 let storage = multer.diskStorage({
@@ -23,3 +24,4 @@ let uploadFile = multer({
 
 let uploadFileMiddleware = util.promisify(uploadFile);
 module.exports = uploadFileMiddleware
+//module.exports = uploadFile;

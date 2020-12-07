@@ -1,9 +1,13 @@
 
-
+const express = require('express');
+const app = express();
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
-const upload = multer({ dest: path.dirname(require.main.filename) + '/public/images' });
+const formData = require('form-data');
+//const upload = multer({ dest: path.dirname(require.main.filename) + '/public/images' });
+const { uploadFileMiddleware } = require('../../auth/upload');
+const upload = multer();
 
 const {
     createCategory,
@@ -12,12 +16,18 @@ const {
 } = require('./categories.service');
 
 
+
 module.exports = {
     createCategory: (req, res) =>{
         const body = req.body;
-        
+        const file = req.file;
+        console.log(body);
+        console.log(file);
+
+        app.use(upload.array());
+          
             
-        createCategory(body, (err, results)=>{
+        createCategory(body, uploadFileMiddleware , (err, results)=>{
             
             if(err){
                 console.log(err);
