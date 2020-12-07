@@ -15,13 +15,9 @@ const {
 module.exports = {
     createCategory: (req, res) =>{
         const body = req.body;
-        //  let EDFile = req.files.file;
-        console.log(body);
-        
-        
-        
-
+            
         createCategory(body, (err, results)=>{
+            
             if(err){
                 console.log(err);
                 return res.status(500).json({
@@ -29,12 +25,11 @@ module.exports = {
                     message: 'Error de conexión'
                 });
             }
-            
+
             return res.status(200).json({
                 success: 1,
                 data: results
             });
-
         });
         
         
@@ -51,10 +46,24 @@ module.exports = {
         });
     },
     updateCategory: (req, res) => {
-        updateCategory((err, res) => {
-            if ( err ) throw err;
-            console.log(res);
-            res.send(res);
-        });
+        const {id} = req.params;
+        const body = req.body;
+        console.log(id);
+
+        updateCategory(id, body, (err, result) => {
+            if(err){
+                console.log(err);
+                return res.status(500).json({
+                    success: 0,
+                    message: 'Error de conexión'
+                });
+            }
+
+            return res.status(200).json({
+                success: 1,
+                data: result
+            });
+        })
+        
     }
 }
