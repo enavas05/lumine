@@ -1,17 +1,18 @@
 const pool = require('../../config/database');
 const multer   = require('multer');
-const upload = multer({dest: '../public/uploads'});
+
 
 module.exports =  {
-    createCategory: async (data, callback) => {
+    createCategory: async (data, file, callback) => {
         const query = `INSERT INTO tblCategory(name, description, visible, image) 
                         VALUES(?,?,?,?)`;
         const duplicated = `SELECT * from tblCategory WHERE name = ?`;
 
         const expreg = /[A-Za-z0-9]/;
-
+        
+        console.log(file);
         pool.query(duplicated, [data.name], (err, result) => {
-            console.log(result)
+            //console.log(result)
             if(result.length > 0){
                 const message = "ya existe una categoría con ese nombre";
                 return callback(null, message);
@@ -21,7 +22,7 @@ module.exports =  {
                         data.name,
                         data.description,
                         data.visible,
-                        data.image
+                        file
         
                     ],
                     (err, results, fields) => {
@@ -32,7 +33,7 @@ module.exports =  {
         })
     },
     getCategories: async (callback) => {
-        const query = 'SELECT id, name, description, visible FROM tblCategory';
+        const query = 'SELECT id, name, description, visible,image FROM tblCategory';
          await pool.query(query, 
                     [], 
                     (err, results, fields )=>{

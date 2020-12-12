@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const uploadFile = require('../../auth/upload');
 const {
-    upload,
+    sendOva,
     getListFiles,
     download
 } = require('./ovas.controller');
 
 
-router.post("/upload", upload);
-router.get("/files", getListFiles);
-router.get("/files/:name", download);
+router.post("/send", uploadFile.single('file'), sendOva);
+//router.get("/", getListFiles);
+//router.get("/:name", download);
 
 module.exports = router;
